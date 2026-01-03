@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class PlayerSearchRequest extends Request {
+public class PlayerSearchRequest extends Request<String> {
     private final String username;
 
     private static final String baseEndpoint = "/web/search?query=";
@@ -27,7 +27,7 @@ public class PlayerSearchRequest extends Request {
 
     @Override
     public String getFullEndpoint() {
-        return baseEndpoint + this.username;
+        return baseEndpoint + this.getUsername();
     }
     @Override
     public String getUrl() {
@@ -49,14 +49,12 @@ public class PlayerSearchRequest extends Request {
         return gson.fromJson(stringResponse, PlayerSearchResponse.class);
     }
 
-    @Override
     public String getStringResponse() {
         Optional<HttpResponse<String>> optionalResponse = this.getOptionalHttpResponse();
         // Return null if the response is not present
         return optionalResponse.map(HttpResponse::body).orElse(null);
     }
 
-    @Override
     protected Optional<HttpResponse<String>> getOptionalHttpResponse() {
         try {
             System.out.println("Sending PlayerSearchRequest to URL: " + this.getUrl());

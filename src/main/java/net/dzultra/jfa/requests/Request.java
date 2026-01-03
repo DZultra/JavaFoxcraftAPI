@@ -1,15 +1,13 @@
 package net.dzultra.jfa.requests;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import net.dzultra.jfa.responses.ErrorResponse;
 
 import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
-import java.util.Optional;
 
-public abstract class Request {
+public abstract class Request<T> {
     protected static final HttpClient httpClient = HttpClient.newHttpClient();
-
     public final String baseEndpoint;
     public final String data;
 
@@ -26,22 +24,23 @@ public abstract class Request {
     public abstract String getFullEndpoint();
     public abstract String getUrl();
 
-    public abstract String getStringResponse();
-    protected abstract Optional<HttpResponse<String>> getOptionalHttpResponse();
-
     protected boolean isValidResponse(String stringResponse) {
         Gson gson = new Gson();
-        ErrorResponse errorResponse = gson.fromJson(stringResponse, ErrorResponse.class);
+        try {
+            ErrorResponse errorResponse = gson.fromJson(stringResponse, ErrorResponse.class);
 
-        if (errorResponse == null) {
-            return false;
-        }
+            if (errorResponse == null) {
+                return false;
+            }
 
-        if (errorResponse.response() != null ) {
-            System.out.println("Error: " + errorResponse.response());
+            if (errorResponse.response() != null) {
+                System.out.println("Error: " + errorResponse.response());
+                return false;
+            } else {
+                return true;
+            }
+        } catch (IllegalStateException | JsonSyntaxException e) {
             return false;
-        } else {
-            return true;
         }
     }
 

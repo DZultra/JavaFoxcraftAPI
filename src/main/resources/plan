@@ -1,0 +1,10 @@
+Request Class <- Calls the API, saves it in the object
+
+
+https://www.mcfoxcraft.com/api/web/search?query={username} -> PlayerSearch Class
+
+
+
+https://www.mcfoxcraft.com/api/web/player?uuid={uuid} -> PlayerStatistics Class
+
+https://www.mcfoxcraft.com/api/skin?uuid={uuid} -> PlayerSkin Class

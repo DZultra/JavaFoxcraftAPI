@@ -8,3 +8,10 @@ https://www.mcfoxcraft.com/api/web/search?query={username} -> PlayerSearch Class
 https://www.mcfoxcraft.com/api/web/player?uuid={uuid} -> PlayerStatistics Class
 
 https://www.mcfoxcraft.com/api/skin?uuid={uuid} -> PlayerSkin Class
+
+
+Move getUUID into abstract class,
+-> add functionality to convert uuid into user
+make PlayerSearchRequest have that functionality
+
+Add basic functionality for abstract functions in Request Class

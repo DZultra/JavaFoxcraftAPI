@@ -3,8 +3,13 @@ package net.dzultra.jfa.requests;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import net.dzultra.jfa.responses.ErrorResponse;
+import net.dzultra.jfa.responses.MojangAPIResponse;
 
+import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public abstract class Request<T> {
     protected static final HttpClient httpClient = HttpClient.newHttpClient();
@@ -48,5 +53,40 @@ public abstract class Request<T> {
         if (username == null) return false;
         String MC_USERNAME_REGEX = "^[a-zA-Z0-9_]{3,16}$";
         return username.matches(MC_USERNAME_REGEX);
+    }
+
+    protected String getUuidFromUsername(String username) {
+        Gson gson = new Gson();
+        if (!this.isValidUsername(username)) {
+            return null;
+        }
+
+        String url = "https://api.mojang.com/users/profiles/minecraft/" + username;
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .GET()
+                    .build();
+
+            HttpResponse<String> response = this.getHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.body() == null) return null;
+
+            MojangAPIResponse mojangAPIResponse = gson.fromJson(response.body(), MojangAPIResponse.class);
+
+            return getNonTrimmedUUID(mojangAPIResponse.id());
+
+        } catch (IOException | InterruptedException | IllegalArgumentException e) {
+            System.out.println("Error during PlayerSearchRequest HTTP call: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String getNonTrimmedUUID(String uuid) {
+        return uuid.substring(0, 8) + "-" +
+                uuid.substring(8, 12) + "-" +
+                uuid.substring(12, 16) + "-" +
+                uuid.substring(16, 20) + "-" +
+                uuid.substring(20, 32);
     }
 }

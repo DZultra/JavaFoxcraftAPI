@@ -1,7 +1,5 @@
 package net.dzultra.jfa.requests;
 
-import com.google.gson.Gson;
-import net.dzultra.jfa.responses.MojangAPIResponse;
 import net.dzultra.jfa.responses.PlayerSkinResponse;
 
 import java.io.IOException;
@@ -106,40 +104,5 @@ public class PlayerSkinRequest extends Request<byte[]>{
         } catch (IOException | InterruptedException | IllegalArgumentException e) {
             return Optional.empty();
         }
-    }
-
-    private String getUuidFromUsername(String username) {
-        Gson gson = new Gson();
-        if (!this.isValidUsername(username)) {
-            return null;
-        }
-
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + username;
-
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(url))
-                    .GET()
-                    .build();
-
-            HttpResponse<String> response = this.getHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.body() == null) return null;
-
-            MojangAPIResponse mojangAPIResponse = gson.fromJson(response.body(), MojangAPIResponse.class);
-
-            return getNonTrimmedUUID(mojangAPIResponse.id());
-
-        } catch (IOException | InterruptedException | IllegalArgumentException e) {
-            System.out.println("Error during PlayerSearchRequest HTTP call: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private String getNonTrimmedUUID(String uuid) {
-        return uuid.substring(0, 8) + "-" +
-               uuid.substring(8, 12) + "-" +
-               uuid.substring(12, 16) + "-" +
-               uuid.substring(16, 20) + "-" +
-               uuid.substring(20, 32);
     }
 }

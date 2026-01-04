@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public record PlayerSearchResponse(List<PlayerSearchResult> results) implements Response{
+public record PlayerSearchResponse(@SerializedName("results") List<PlayerSearchResult> players) implements Response{
     public record PlayerSearchResult(
             String uuid,
             String username,

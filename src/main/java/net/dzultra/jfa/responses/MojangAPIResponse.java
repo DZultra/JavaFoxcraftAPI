@@ -1,3 +1,5 @@
 package net.dzultra.jfa.responses;
 
-public record MojangAPIResponse(String id, String name) implements Response{}
+import com.google.gson.annotations.SerializedName;
+
+public record MojangAPIResponse(@SerializedName("id") String uuid, String name) implements Response{}

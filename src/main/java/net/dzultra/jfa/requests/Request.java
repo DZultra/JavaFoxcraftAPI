@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import net.dzultra.jfa.responses.ErrorResponse;
 import net.dzultra.jfa.responses.MojangAPIResponse;
+import net.dzultra.jfa.responses.Response;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,6 +29,8 @@ public abstract class Request<T> {
     public abstract String getBaseEndpoint();
     public abstract String getFullEndpoint();
     public abstract String getUrl();
+
+    public abstract Response getResponse();
 
     protected boolean isValidResponse(String stringResponse) {
         Gson gson = new Gson();

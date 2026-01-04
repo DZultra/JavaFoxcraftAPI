@@ -38,7 +38,7 @@ public class PlayerSearchRequest extends Request<String> {
         return this.username;
     }
 
-
+    @Override
     public PlayerSearchResponse getResponse() {
         Gson gson = new Gson();
         String stringResponse = getStringResponse();

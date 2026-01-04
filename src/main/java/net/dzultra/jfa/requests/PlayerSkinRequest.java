@@ -61,6 +61,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         return this.uuid;
     }
 
+    @Override
     public PlayerSkinResponse getResponse() {
         byte[] byteArrayResponse = getByteArrayResponse();
         return new PlayerSkinResponse(byteArrayResponse);

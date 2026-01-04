@@ -1,3 +1,3 @@
 package net.dzultra.jfa.responses;
 
-public record ErrorResponse(String response) {}
+public record ErrorResponse(String response) implements Response {}

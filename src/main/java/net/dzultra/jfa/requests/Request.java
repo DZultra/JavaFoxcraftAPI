@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import net.dzultra.jfa.responses.ErrorResponse;
 import net.dzultra.jfa.responses.MojangAPIResponse;
 import net.dzultra.jfa.responses.Response;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.net.URI;
@@ -30,7 +31,7 @@ public abstract class Request<T> {
     public abstract String getFullEndpoint();
     public abstract String getUrl();
 
-    public abstract Response getResponse();
+    public @Nullable abstract Response getResponse();
 
     protected boolean isValidResponse(String stringResponse) {
         Gson gson = new Gson();
@@ -77,7 +78,7 @@ public abstract class Request<T> {
 
             MojangAPIResponse mojangAPIResponse = gson.fromJson(response.body(), MojangAPIResponse.class);
 
-            return getNonTrimmedUUID(mojangAPIResponse.id());
+            return getNonTrimmedUUID(mojangAPIResponse.uuid());
 
         } catch (IOException | InterruptedException | IllegalArgumentException e) {
             System.out.println("Error during PlayerSearchRequest HTTP call: " + e.getMessage());

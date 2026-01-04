@@ -15,3 +15,8 @@ Move getUUID into abstract class,
 make PlayerSearchRequest have that functionality
 
 Add basic functionality for abstract functions in Request Class
+
+Add functionality to get head of player instead of full skin using https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format=head
+
+Helper Functions for Json API Responses for clearer use of JFA. Do List handling of certain stats in PlayerStatisticsRequest/Response
+so that clear values of the returned list match exact stats

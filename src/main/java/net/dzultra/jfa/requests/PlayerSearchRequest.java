@@ -49,13 +49,13 @@ public class PlayerSearchRequest extends Request<String> {
         return gson.fromJson(stringResponse, PlayerSearchResponse.class);
     }
 
-    public String getStringResponse() {
+    private String getStringResponse() {
         Optional<HttpResponse<String>> optionalResponse = this.getOptionalHttpResponse();
         // Return null if the response is not present
         return optionalResponse.map(HttpResponse::body).orElse(null);
     }
 
-    protected Optional<HttpResponse<String>> getOptionalHttpResponse() {
+    private Optional<HttpResponse<String>> getOptionalHttpResponse() {
         try {
             System.out.println("Sending PlayerSearchRequest to URL: " + this.getUrl());
             HttpRequest request = HttpRequest.newBuilder()

@@ -67,7 +67,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         return new PlayerSkinResponse(byteArrayResponse);
     }
 
-    public byte[] getByteArrayResponse() {
+    private byte[] getByteArrayResponse() {
         // Check whether Error is present and then return null if so
         Optional<HttpResponse<String>> optionalStringResponse = this.getOptionalStringHttpResponse();
         String stringResponse = optionalStringResponse.map(HttpResponse::body).orElse(null);
@@ -81,7 +81,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         return optionalByteArrayResponse.map(HttpResponse::body).orElse(null);
     }
 
-    protected Optional<HttpResponse<byte[]>> getOptionalByteArrayHttpResponse() {
+    private Optional<HttpResponse<byte[]>> getOptionalByteArrayHttpResponse() {
         try {
             System.out.println("Sending PlayerSkinRequest to URL: " + this.getUrl());
             HttpRequest request = HttpRequest.newBuilder()
@@ -95,7 +95,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         }
     }
 
-    protected Optional<HttpResponse<String>> getOptionalStringHttpResponse() {
+    private Optional<HttpResponse<String>> getOptionalStringHttpResponse() {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(this.getUrl()))

@@ -68,16 +68,7 @@ public class PlayerStatisticsRequest extends Request<String>{
         String stringResponse = getStringResponse();
 
         if (!this.isValidResponse(stringResponse)) {
-            return new PlayerStatisticsResponse(
-                    // Return Player Object (aka. Result) with empty values
-                    new PlayerStatisticsResponse.PlayerStatisticsResult(
-                            "",
-                            "",
-                            null,
-                            null,
-                            null
-                    )
-            );
+            return new PlayerStatisticsResponse(null);
         }
         return gson.fromJson(stringResponse, PlayerStatisticsResponse.class);
     }

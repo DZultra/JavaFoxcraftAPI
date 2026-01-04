@@ -1,3 +1,5 @@
 package net.dzultra.jfa.responses;
 
-public record PlayerSkinResponse(byte[] png) implements Response{}
+import org.jetbrains.annotations.Nullable;
+
+public record PlayerSkinResponse(byte @Nullable [] png) implements Response{}

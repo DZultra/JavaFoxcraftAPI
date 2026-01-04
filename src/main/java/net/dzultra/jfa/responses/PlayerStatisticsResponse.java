@@ -1,10 +1,12 @@
 package net.dzultra.jfa.responses;
 
 import com.google.gson.annotations.SerializedName;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public record PlayerStatisticsResponse(PlayerStatisticsResult player) implements Response {
+
+public record PlayerStatisticsResponse(@Nullable PlayerStatisticsResult player) implements Response {
     public record PlayerStatisticsResult(
             String username,
             @SerializedName("avatar") String headUrl,

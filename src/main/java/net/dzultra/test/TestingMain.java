@@ -1,7 +1,9 @@
 package net.dzultra.test;
 
-import net.dzultra.jfa.requests.ServerLeaderboardMetadataRequest;
-import net.dzultra.jfa.responses.ServerLeaderboardMetadataResponse;
+import net.dzultra.jfa.requests.ServerLeaderboardsRequest;
+import net.dzultra.jfa.requests.leaderboards.Gamemode;
+import net.dzultra.jfa.requests.leaderboards.Period;
+import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 
 public class TestingMain {
     public static void main(String[] args) {
@@ -25,9 +27,11 @@ public class TestingMain {
 //        PlayerStatisticsResponse playerStatisticsResponse = new PlayerStatisticsRequest("DZultra", true).getResponse();
 //        System.out.println(playerStatisticsResponse.player().serverGamemodes().get(0).statistics().getFirst());
 
-        ServerLeaderboardMetadataResponse serverLeaderboardMetadataResponse =
-                new ServerLeaderboardMetadataRequest().getResponse();
+//        ServerLeaderboardMetadataResponse serverLeaderboardMetadataResponse =
+//                new ServerLeaderboardMetadataRequest().getResponse();
+//        System.out.println(serverLeaderboardMetadataResponse);
 
-        System.out.println(serverLeaderboardMetadataResponse);
+        ServerLeaderboardsResponse serverLeaderboardsResponse = new ServerLeaderboardsRequest(Gamemode.ONEBLOCK, Period.ALL_TIME).getResponse();
+        System.out.println(serverLeaderboardsResponse.leaderboards().getFirst().entry().get(0).username());
     }
 }

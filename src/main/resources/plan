@@ -6,7 +6,7 @@ https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format={format} -> PlayerSkin Cl
 https://www.mcfoxcraft.com/api/web/leaderboard?server={gamemode}&period={time_period} -> Statistics on specified server in specified time period
 https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 
-Add functionality to get head of player instead of full skin using https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format=head
+
 Add leaderboards statistics functionality
 Add Leaderboards Metadata Functionality
 

@@ -11,10 +11,11 @@ import java.util.Optional;
 public class PlayerSkinRequest extends Request<byte[]>{
     private final String uuid;
     private final String username;
+    private final boolean asHead;
 
     private static final String baseEndpoint = "/skin?uuid=";
 
-    public PlayerSkinRequest(String uuid) {
+    public PlayerSkinRequest(String uuid, boolean asHead) {
         super(baseEndpoint, uuid);
 
         if (!data.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
@@ -23,10 +24,11 @@ public class PlayerSkinRequest extends Request<byte[]>{
         } else {
             this.uuid = uuid;
         }
+        this.asHead = asHead;
         this.username = null;
     }
 
-    public PlayerSkinRequest(String data, boolean asUsername) {
+    public PlayerSkinRequest(String data, boolean asHead, boolean asUsername) {
         super(baseEndpoint, data);
         if (!asUsername) { // If asUsername is false, data is treated as UUID
             this.username = null;
@@ -40,6 +42,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
             this.username = data;
             this.uuid = getUuidFromUsername(username);
         }
+        this.asHead = asHead;
     }
 
     @Override
@@ -49,7 +52,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
 
     @Override
     public String getFullEndpoint() {
-        return this.getBaseEndpoint() + this.getUuid();
+        return this.getBaseEndpoint() + this.getUuid() + (asHead ? "&format=head" : "");
     }
 
     @Override
@@ -67,7 +70,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         return new PlayerSkinResponse(byteArrayResponse);
     }
 
-    private byte[] getByteArrayResponse() {
+    protected byte[] getByteArrayResponse() {
         // Check whether Error is present and then return null if so
         Optional<HttpResponse<String>> optionalStringResponse = this.getOptionalStringHttpResponse();
         String stringResponse = optionalStringResponse.map(HttpResponse::body).orElse(null);

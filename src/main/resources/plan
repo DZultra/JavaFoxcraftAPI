@@ -8,7 +8,6 @@ https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 
 
 Add leaderboards statistics functionality
-Add Leaderboards Metadata Functionality
 
 Helper Functions for Json API Responses for clearer use of JFA. Do List handling of certain stats in PlayerStatisticsRequest/Response
 so that clear values of the returned list match exact stats

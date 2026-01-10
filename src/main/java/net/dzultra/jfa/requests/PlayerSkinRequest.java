@@ -49,7 +49,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
 
     @Override
     public String getFullEndpoint() {
-        return baseEndpoint + this.getUuid();
+        return this.getBaseEndpoint() + this.getUuid();
     }
 
     @Override

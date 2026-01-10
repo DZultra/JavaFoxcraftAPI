@@ -27,7 +27,7 @@ public class PlayerSearchRequest extends Request<String> {
 
     @Override
     public String getFullEndpoint() {
-        return baseEndpoint + this.getUsername();
+        return this.getBaseEndpoint() + this.getUsername();
     }
     @Override
     public String getUrl() {

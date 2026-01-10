@@ -11,6 +11,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 public abstract class Request<T> {
     protected static final HttpClient httpClient = HttpClient.newHttpClient();
@@ -31,6 +32,26 @@ public abstract class Request<T> {
     public abstract String getUrl();
 
     public abstract Response getResponse();
+
+    protected String getStringResponse() {
+        Optional<HttpResponse<String>> optionalResponse = this.getOptionalHttpResponse();
+        // Return null if the response is not present
+        return optionalResponse.map(HttpResponse::body).orElse(null);
+    }
+
+    private Optional<HttpResponse<String>> getOptionalHttpResponse() {
+        try {
+            System.out.println("Sending Request to URL: " + this.getUrl());
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(this.getUrl()))
+                    .GET()
+                    .build();
+            return Optional.of(this.getHttpClient().send(request, HttpResponse.BodyHandlers.ofString()));
+        } catch (IOException | InterruptedException | IllegalArgumentException e) {
+            System.out.println("Error during Request HTTP call: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
 
     protected boolean isValidResponse(String stringResponse) {
         Gson gson = new Gson();

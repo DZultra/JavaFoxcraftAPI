@@ -1,22 +1,14 @@
-Request Class <- Calls the API, saves it in the object
 
-
+https://www.mcfoxcraft.com/api/openapi.json -> API Docs
 https://www.mcfoxcraft.com/api/web/search?query={username} -> PlayerSearch Class
-
-
-
 https://www.mcfoxcraft.com/api/web/player?uuid={uuid} -> PlayerStatistics Class
-
-https://www.mcfoxcraft.com/api/skin?uuid={uuid} -> PlayerSkin Class
-
-
-Move getUUID into abstract class,
--> add functionality to convert uuid into user
-make PlayerSearchRequest have that functionality
-
-Add basic functionality for abstract functions in Request Class
+https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format={format} -> PlayerSkin Class
+https://www.mcfoxcraft.com/api/web/leaderboard?server={gamemode}&period={time_period} -> Statistics on specified server in specified time period
+https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 
 Add functionality to get head of player instead of full skin using https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format=head
+Add leaderboards statistics functionality
+Add Leaderboards Metadata Functionality
 
 Helper Functions for Json API Responses for clearer use of JFA. Do List handling of certain stats in PlayerStatisticsRequest/Response
 so that clear values of the returned list match exact stats

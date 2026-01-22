@@ -1,8 +1,8 @@
 package net.dzultra.jfa.requests;
 
 import com.google.gson.Gson;
-import net.dzultra.jfa.requests.leaderboards.Gamemode;
-import net.dzultra.jfa.requests.leaderboards.Period;
+import net.dzultra.jfa.requests.types.Gamemode;
+import net.dzultra.jfa.requests.types.Period;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 
 public class ServerLeaderboardsRequest extends Request<String> {

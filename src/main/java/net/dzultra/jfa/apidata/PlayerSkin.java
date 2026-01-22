@@ -32,7 +32,7 @@ public class PlayerSkin extends APIDataObject<PlayerSkinResponse>{
     }
 
     protected void dataHandler() {
-        if (this.playerSkinResponse.png() == null) throw new IncompleteResponse(this);
+        if (this.playerSkinResponse.png() == null) throw new IncompleteResponseException(this);
         this.png = this.playerSkinResponse.png();
     }
 

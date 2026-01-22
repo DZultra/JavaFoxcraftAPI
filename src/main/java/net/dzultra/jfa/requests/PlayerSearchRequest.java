@@ -3,8 +3,6 @@ package net.dzultra.jfa.requests;
 import com.google.gson.Gson;
 import net.dzultra.jfa.responses.PlayerSearchResponse;
 
-import java.util.ArrayList;
-
 public class PlayerSearchRequest extends Request<String> {
     private final String username;
 
@@ -39,7 +37,7 @@ public class PlayerSearchRequest extends Request<String> {
         String stringResponse = getStringResponse();
 
         if (!this.isValidResponse(stringResponse)) {
-            return new PlayerSearchResponse(new ArrayList<>());
+            return new PlayerSearchResponse(null);
         }
         return gson.fromJson(stringResponse, PlayerSearchResponse.class);
     }

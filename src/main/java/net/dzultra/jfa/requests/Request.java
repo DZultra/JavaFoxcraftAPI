@@ -58,12 +58,8 @@ public abstract class Request<T> {
         try {
             ErrorResponse errorResponse = gson.fromJson(stringResponse, ErrorResponse.class);
 
-            if (errorResponse == null) {
-                return false;
-            }
-
             if (errorResponse.response() != null) {
-                System.out.println("Error: " + errorResponse.response());
+                System.out.println("Exception: " + stringResponse);
                 return false;
             } else {
                 return true;

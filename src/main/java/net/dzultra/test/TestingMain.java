@@ -1,5 +1,6 @@
 package net.dzultra.test;
 
+import net.dzultra.jfa.apidata.PlayerSearch;
 import net.dzultra.jfa.apidata.PlayerSkin;
 
 import java.nio.file.Path;
@@ -22,6 +23,10 @@ public class TestingMain {
 //        ServerLeaderboardsResponse serverLeaderboardsResponse = new ServerLeaderboardsRequest(Gamemode.ONEBLOCK, Period.ALL_TIME).getResponse();
 //        System.out.println(serverLeaderboardsResponse.leaderboards().getFirst().entry().get(0).username());
 
-        PlayerSkin playerSkin = new PlayerSkin("AS", false, true).writeToPath(Path.of("src/main/resources/skin.png"));
+        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true).writeToPath(Path.of("src/main/resources/skin.png"));
+
+        PlayerSearch playerSearch = new PlayerSearch("*DZultra6390");
+
+        System.out.println(playerSearch.playerSearchResult.uuid());
     }
 }

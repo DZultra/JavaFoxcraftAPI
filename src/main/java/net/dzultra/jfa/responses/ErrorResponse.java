@@ -1,3 +1,5 @@
 package net.dzultra.jfa.responses;
 
-public record ErrorResponse(String response) implements Response {}
+import com.google.gson.annotations.SerializedName;
+
+public record ErrorResponse(@SerializedName("error") String response) implements Response {}

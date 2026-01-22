@@ -6,8 +6,5 @@ https://www.mcfoxcraft.com/api/skin?uuid={uuid}&format={format} -> PlayerSkin Cl
 https://www.mcfoxcraft.com/api/web/leaderboard?server={gamemode}&period={time_period} -> Statistics on specified server in specified time period
 https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 
-
-Add leaderboards statistics functionality
-
 Helper Functions for Json API Responses for clearer use of JFA. Do List handling of certain stats in PlayerStatisticsRequest/Response
 so that clear values of the returned list match exact stats

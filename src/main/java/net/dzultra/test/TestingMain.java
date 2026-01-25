@@ -23,7 +23,8 @@ public class TestingMain {
 //        ServerLeaderboardsResponse serverLeaderboardsResponse = new ServerLeaderboardsRequest(Gamemode.ONEBLOCK, Period.ALL_TIME).getResponse();
 //        System.out.println(serverLeaderboardsResponse.leaderboards().getFirst().entry().get(0).username());
 
-        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true).writeToPath(Path.of("src/main/resources/skin.getPng"));
+        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true);
+        playerSkin.writeToPath(Path.of("src/main/resources/skin.png"));
 
         PlayerSearch playerSearch = new PlayerSearch("Z_e_r_o_x_");
 

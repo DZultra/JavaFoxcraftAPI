@@ -36,13 +36,13 @@ public class PlayerSkin extends APIDataObject<PlayerSkinResponse>{
         this.png = this.playerSkinResponse.png();
     }
 
-    public byte[] png() {
+    public byte[] getPng() {
         return this.png;
     }
 
     public PlayerSkin writeToPath(Path path) {
         try {
-            Files.write(path, this.png());
+            Files.write(path, this.getPng());
         } catch (IOException e) {
             System.out.println("Failed to write skin to file: " + e.getMessage());
         }

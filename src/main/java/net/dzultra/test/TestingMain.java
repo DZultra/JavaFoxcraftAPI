@@ -23,10 +23,10 @@ public class TestingMain {
 //        ServerLeaderboardsResponse serverLeaderboardsResponse = new ServerLeaderboardsRequest(Gamemode.ONEBLOCK, Period.ALL_TIME).getResponse();
 //        System.out.println(serverLeaderboardsResponse.leaderboards().getFirst().entry().get(0).username());
 
-        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true).writeToPath(Path.of("src/main/resources/skin.png"));
+        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true).writeToPath(Path.of("src/main/resources/skin.getPng"));
 
-        PlayerSearch playerSearch = new PlayerSearch("*DZultra6390");
+        PlayerSearch playerSearch = new PlayerSearch("Z_e_r_o_x_");
 
-        System.out.println(playerSearch.playerSearchResult.uuid());
+        System.out.println(playerSearch.getUuid());
     }
 }

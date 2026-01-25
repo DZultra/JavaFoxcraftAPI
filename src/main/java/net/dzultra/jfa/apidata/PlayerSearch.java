@@ -46,7 +46,17 @@ public class PlayerSearch extends APIDataObject<PlayerSearchResponse> {
         this.headUrl = this.getPlayerSearchResult().headUrl();
     }
 
+    public String getUuid() {
+        return uuid;
+    }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getHeadUrl() {
+        return headUrl;
+    }
 
     public String getRequestedUsername() {
         return this.playerSearchRequest.getUsername();

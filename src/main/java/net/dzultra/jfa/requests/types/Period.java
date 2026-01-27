@@ -1,9 +1,19 @@
 package net.dzultra.jfa.requests.types;
 
 public enum Period {
-    DAILY,
-    WEEKLY,
-    MONTHLY,
-    YEARLY,
-    ALL_TIME
+    DAILY("daily"),
+    WEEKLY("weekly"),
+    MONTHLY("monthly"),
+    YEARLY("yearly"),
+    ALL_TIME("alltime");
+
+    private final String name;
+
+    Period(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

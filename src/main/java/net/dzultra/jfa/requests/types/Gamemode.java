@@ -1,8 +1,18 @@
 package net.dzultra.jfa.requests.types;
 
 public enum Gamemode {
-    ONEBLOCK,
-    SURVIVAL,
-    KINGDOMS,
-    PARKOUR
+    ONEBLOCK("oneblock"),
+    SURVIVAL("survival"),
+    KINGDOMS("kingdoms"),
+    PARKOUR("parkour");
+
+    private final String name;
+
+    Gamemode(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

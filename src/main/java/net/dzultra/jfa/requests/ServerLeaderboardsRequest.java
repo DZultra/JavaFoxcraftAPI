@@ -23,7 +23,7 @@ public class ServerLeaderboardsRequest extends Request<String> {
 
     @Override
     public String getFullEndpoint() {
-        return this.getBaseEndpoint() + "server=" + getGamemodeName() + "&period=" +  getPeriodName();
+        return this.getBaseEndpoint() + "server=" + this.gamemode.getName() + "&period=" +  this.period.getName();
     }
 
     @Override
@@ -40,34 +40,5 @@ public class ServerLeaderboardsRequest extends Request<String> {
             return new ServerLeaderboardsResponse(null);
         }
         return gson.fromJson(stringResponse, ServerLeaderboardsResponse.class);
-    }
-
-    private String getGamemodeName() {
-        String gamemodeName = "";
-
-        switch (this.gamemode) {
-            case Gamemode.ONEBLOCK -> gamemodeName = "oneblock";
-            case Gamemode.SURVIVAL -> gamemodeName = "survival";
-            case Gamemode.KINGDOMS -> gamemodeName = "kingdoms";
-            case Gamemode.PARKOUR -> gamemodeName = "parkour";
-            default -> System.out.println("Invalid gamemode provided, somehow... Make sure you know what you're doing");
-        }
-
-        return gamemodeName;
-    }
-
-    private String getPeriodName() {
-        String periodName = "";
-
-        switch (this.period) {
-            case Period.DAILY -> periodName = "daily";
-            case Period.WEEKLY -> periodName = "weekly";
-            case Period.MONTHLY -> periodName = "monthly";
-            case Period.YEARLY -> periodName = "yearly";
-            case Period.ALL_TIME -> periodName = "alltime";
-            default -> System.out.println("Invalid period provided, somehow... Make sure you know what you're doing");
-        }
-
-        return periodName;
     }
 }

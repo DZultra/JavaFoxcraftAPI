@@ -3,7 +3,7 @@ package net.dzultra.jfa.apidata;
 import net.dzultra.jfa.requests.ServerLeaderboardsRequest;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 import net.dzultra.jfa.types.Gamemode;
-import net.dzultra.jfa.types.LeaderboardType;
+import net.dzultra.jfa.types.leaderboards.LeaderboardType;
 import net.dzultra.jfa.types.Period;
 
 import java.util.List;

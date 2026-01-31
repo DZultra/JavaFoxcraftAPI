@@ -1,7 +1,6 @@
 package net.dzultra.jfa.types.leaderboards;
 
 import net.dzultra.jfa.types.Gamemode;
-import net.dzultra.jfa.types.LeaderboardType;
 
 public enum OneblockLeaderboards implements LeaderboardType {
     KILLS("Kills"),

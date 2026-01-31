@@ -36,6 +36,11 @@ public class PlayerSkin extends APIDataObject<PlayerSkinRequest,PlayerSkinRespon
         this.png = this.response.png();
     }
 
+    @Override
+    public String getName() {
+        return "PlayerSkin";
+    }
+
     public byte[] getPng() {
         return this.png;
     }

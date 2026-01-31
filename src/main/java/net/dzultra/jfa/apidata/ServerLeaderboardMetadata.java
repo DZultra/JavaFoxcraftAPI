@@ -37,6 +37,11 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
                 .toList();
     }
 
+    @Override
+    public String getName() {
+        return "ServerLeaderboardMetaData";
+    }
+
     public List<PeriodMap> getPeriods() {
         return periods;
     }

@@ -32,12 +32,17 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
         List<PlayerSearchResponse.PlayerSearchResult> playerSearchResults = response.players();
         if (playerSearchResults == null) throw new IncompleteResponseException(this);
 
-        if (!getRequestedUsername().equals(playerSearchResults.getFirst().username())) throw new NoExactMatchException(this);
+        if (!getRequestedUsername().equals(playerSearchResults.getFirst().username())) throw new NoExactMatchException(this, username);
 
         this.playerSearchResult = this.response.players().getFirst();
         this.uuid = this.getPlayerSearchResult().uuid();
         this.username = this.getPlayerSearchResult().username();
         this.headUrl = this.getPlayerSearchResult().headUrl();
+    }
+
+    @Override
+    public String getName() {
+        return "PlayerSearch";
     }
 
     public String getUuid() {

@@ -5,10 +5,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public record ServerLeaderboardsResponse(@Nullable @SerializedName("boards") List<LeaderboardResult> leaderboardResults) implements Response {
-    public record LeaderboardResult(
+public record ServerLeaderboardsResponse(@Nullable @SerializedName("boards") List<LeaderboardResults> leaderboardResults) implements Response {
+    public record LeaderboardResults(
             @SerializedName("title") String name,
-            @SerializedName("players") List<LeaderboardEntry> entry
+            @SerializedName("players") List<LeaderboardEntry> entries
     ) {}
 
     public record LeaderboardEntry(

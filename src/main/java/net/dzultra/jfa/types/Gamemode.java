@@ -1,4 +1,4 @@
-package net.dzultra.jfa.requests.types;
+package net.dzultra.jfa.types;
 
 public enum Gamemode {
     ONEBLOCK("oneblock"),

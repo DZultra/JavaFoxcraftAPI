@@ -1,5 +1,6 @@
 package net.dzultra.jfa.types;
 
+@SuppressWarnings("unused")
 public enum Gamemode {
     ONEBLOCK("oneblock"),
     SURVIVAL("survival"),

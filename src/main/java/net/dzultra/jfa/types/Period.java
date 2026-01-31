@@ -1,5 +1,6 @@
 package net.dzultra.jfa.types;
 
+@SuppressWarnings("unused")
 public enum Period {
     DAILY("daily"),
     WEEKLY("weekly"),

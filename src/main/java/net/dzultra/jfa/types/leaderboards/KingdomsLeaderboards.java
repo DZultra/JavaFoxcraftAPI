@@ -2,6 +2,7 @@ package net.dzultra.jfa.types.leaderboards;
 
 import net.dzultra.jfa.types.Gamemode;
 
+@SuppressWarnings("unused")
 public enum KingdomsLeaderboards implements LeaderboardType {
     BLOCKS_BROKEN("Blocks broken"),
     BLOCKS_PLACED("Blocks placed"),

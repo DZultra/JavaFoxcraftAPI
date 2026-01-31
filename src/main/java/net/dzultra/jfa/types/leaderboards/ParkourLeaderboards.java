@@ -2,6 +2,7 @@ package net.dzultra.jfa.types.leaderboards;
 
 import net.dzultra.jfa.types.Gamemode;
 
+@SuppressWarnings("unused")
 public enum ParkourLeaderboards implements LeaderboardType {
     PARKOUR_POINTS_GAINED("Parkour points gained"),
     PARKOUR_SHARDS_GAINED("Parkour shards gained"),

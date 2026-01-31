@@ -2,6 +2,7 @@ package net.dzultra.jfa.types.leaderboards;
 
 import net.dzultra.jfa.types.Gamemode;
 
+@SuppressWarnings("unused")
 public enum SurvivalLeaderboards implements LeaderboardType {
     KILLS("Kills"),
     BLOCKS_PLACED("Blocks placed"),

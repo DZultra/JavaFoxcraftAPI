@@ -1,9 +1,9 @@
 package net.dzultra.jfa.requests;
 
 import com.google.gson.Gson;
-import net.dzultra.jfa.requests.types.Gamemode;
-import net.dzultra.jfa.requests.types.Period;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
+import net.dzultra.jfa.types.Gamemode;
+import net.dzultra.jfa.types.Period;
 
 public class ServerLeaderboardsRequest extends Request<String> {
     private static final String baseEndpoint = "/web/leaderboard?";

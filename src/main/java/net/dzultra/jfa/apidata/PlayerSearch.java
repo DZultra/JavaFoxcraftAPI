@@ -6,9 +6,7 @@ import net.dzultra.jfa.responses.PlayerSearchResponse;
 import java.util.List;
 
 
-public class PlayerSearch extends APIDataObject<PlayerSearchResponse> {
-    private final PlayerSearchRequest playerSearchRequest;
-    private final PlayerSearchResponse playerSearchResponse;
+public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearchResponse> {
     private PlayerSearchResponse.PlayerSearchResult playerSearchResult;
 
     private String uuid;
@@ -18,29 +16,25 @@ public class PlayerSearch extends APIDataObject<PlayerSearchResponse> {
     public PlayerSearch(String username) {
         PlayerSearchRequest request = new PlayerSearchRequest(username);
         PlayerSearchResponse response = request.getResponse();
-        super(response);
-        this.playerSearchRequest = request;
-        this.playerSearchResponse = response;
+        super(request, response);
         dataHandler();
     }
 
     public PlayerSearch(PlayerSearchRequest request) {
         PlayerSearchResponse response = request.getResponse();
-        super(response);
-        this.playerSearchRequest = request;
-        this.playerSearchResponse = response;
+        super(request, response);
         dataHandler();
     }
 
 
     @Override
     protected void dataHandler() {
-        List<PlayerSearchResponse.PlayerSearchResult> playerSearchResults = playerSearchResponse.players();
+        List<PlayerSearchResponse.PlayerSearchResult> playerSearchResults = response.players();
         if (playerSearchResults == null) throw new IncompleteResponseException(this);
 
         if (!getRequestedUsername().equals(playerSearchResults.getFirst().username())) throw new NoExactMatchException(this);
 
-        this.playerSearchResult = this.playerSearchResponse.players().getFirst();
+        this.playerSearchResult = this.response.players().getFirst();
         this.uuid = this.getPlayerSearchResult().uuid();
         this.username = this.getPlayerSearchResult().username();
         this.headUrl = this.getPlayerSearchResult().headUrl();
@@ -59,7 +53,7 @@ public class PlayerSearch extends APIDataObject<PlayerSearchResponse> {
     }
 
     public String getRequestedUsername() {
-        return this.playerSearchRequest.getUsername();
+        return this.request.getUsername();
     }
 
     private PlayerSearchResponse.PlayerSearchResult getPlayerSearchResult() {

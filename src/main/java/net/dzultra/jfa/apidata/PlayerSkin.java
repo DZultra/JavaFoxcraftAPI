@@ -7,33 +7,33 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class PlayerSkin extends APIDataObject<PlayerSkinResponse>{
-    private final PlayerSkinResponse playerSkinResponse;
+public class PlayerSkin extends APIDataObject<PlayerSkinRequest,PlayerSkinResponse>{
     private byte[] png;
 
     public PlayerSkin(String uuid, boolean asHead) {
-        PlayerSkinResponse response = new PlayerSkinRequest(uuid, asHead).getResponse();
-        super(response);
-        this.playerSkinResponse = response;
+        PlayerSkinRequest request = new PlayerSkinRequest(uuid, asHead);
+        PlayerSkinResponse response = request.getResponse();
+        super(request, response);
         dataHandler();
     }
 
     public PlayerSkin(String data, boolean asHead, boolean asUsername) {
-        PlayerSkinResponse response = new PlayerSkinRequest(data, asHead, asUsername).getResponse();
-        super(response);
-        this.playerSkinResponse = response;
+        PlayerSkinRequest request = new PlayerSkinRequest(data, asHead, asUsername);
+        PlayerSkinResponse response = request.getResponse();
+        super(request, response);
         dataHandler();
     }
 
-    public PlayerSkin(PlayerSkinResponse playerSkinResponse) {
-        super(playerSkinResponse);
-        this.playerSkinResponse = playerSkinResponse;
+    public PlayerSkin(PlayerSkinRequest request) {
+        PlayerSkinResponse response = request.getResponse();
+        super(request, response);
         dataHandler();
     }
 
+    @Override
     protected void dataHandler() {
-        if (this.playerSkinResponse.png() == null) throw new IncompleteResponseException(this);
-        this.png = this.playerSkinResponse.png();
+        if (this.response.png() == null) throw new IncompleteResponseException(this);
+        this.png = this.response.png();
     }
 
     public byte[] getPng() {

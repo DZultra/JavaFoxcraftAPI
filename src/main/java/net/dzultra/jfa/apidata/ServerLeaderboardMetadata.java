@@ -1,29 +1,28 @@
 package net.dzultra.jfa.apidata;
 
 import net.dzultra.jfa.requests.ServerLeaderboardMetadataRequest;
-import net.dzultra.jfa.requests.types.Gamemode;
-import net.dzultra.jfa.requests.types.Period;
+import net.dzultra.jfa.types.Gamemode;
+import net.dzultra.jfa.types.Period;
 import net.dzultra.jfa.responses.ServerLeaderboardMetadataResponse;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMetadataResponse>{
-    private final ServerLeaderboardMetadataResponse serverLeaderboardMetadataResponse;
+public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMetadataRequest,ServerLeaderboardMetadataResponse>{
     private List<GameModeMap> gamemodes = null;
     private List<PeriodMap> periods = null;
 
 
     public ServerLeaderboardMetadata() {
-        ServerLeaderboardMetadataResponse response = new ServerLeaderboardMetadataRequest().getResponse();
-        super(response);
-        this.serverLeaderboardMetadataResponse = response;
+        ServerLeaderboardMetadataRequest request = new ServerLeaderboardMetadataRequest();
+        ServerLeaderboardMetadataResponse response = request.getResponse();
+        super(request, response);
         dataHandler();
     }
 
     @Override
     protected void dataHandler() {
-        ServerLeaderboardMetadataResponse rawResponse = serverLeaderboardMetadataResponse;
+        ServerLeaderboardMetadataResponse rawResponse = response;
         if (rawResponse.gamemodes() == null
                 || rawResponse.periods() == null
                 || rawResponse.initialArgs() == null
@@ -47,7 +46,7 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
     }
 
     public ServerLeaderboardMetadataResponse.InitialSelection getInitialSelection() {
-        return serverLeaderboardMetadataResponse.initialArgs();
+        return response.initialArgs();
     }
 
     public GameModeMap getGamemode(Gamemode gamemodeType) {
@@ -72,7 +71,7 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
 
     // Can't be null since dataHandler checks for it
     public String initialServer() {
-        return serverLeaderboardMetadataResponse.initialArgs().gamemode();
+        return response.initialArgs().gamemode();
     }
 
     public record GameModeMap(String serverId, String serverName) {}

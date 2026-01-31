@@ -13,4 +13,13 @@ public abstract class APIDataObject<REQUEST_TYPE extends Request<?>, RESPONSE_TY
     }
 
     protected abstract void dataHandler();
+    public abstract String getName();
+
+    public REQUEST_TYPE getRawRequest() {
+        return request;
+    }
+
+    public RESPONSE_TYPE getRawResponse() {
+        return response;
+    }
 }

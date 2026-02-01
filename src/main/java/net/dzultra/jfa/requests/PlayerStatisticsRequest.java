@@ -1,6 +1,7 @@
 package net.dzultra.jfa.requests;
 
 import com.google.gson.Gson;
+import net.dzultra.jfa.exceptions.InvalidUUIDException;
 import net.dzultra.jfa.responses.PlayerStatisticsResponse;
 
 public class PlayerStatisticsRequest extends Request<String>{
@@ -13,8 +14,7 @@ public class PlayerStatisticsRequest extends Request<String>{
         super(baseEndpoint, uuid);
 
         if (!data.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
-            System.out.println("Invalid UUID format provided.");
-            this.uuid = "";
+            throw new InvalidUUIDException(this);
         } else {
             this.uuid = uuid;
         }
@@ -26,8 +26,7 @@ public class PlayerStatisticsRequest extends Request<String>{
         if (!asUsername) { // If asUsername is false, data is treated as UUID
             this.username = null;
             if (!data.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
-                System.out.println("Invalid UUID format provided.");
-                this.uuid = "";
+                throw new InvalidUUIDException(this);
             } else {
                 this.uuid = data;
             }

@@ -1,5 +1,6 @@
 package net.dzultra.jfa.requests;
 
+import net.dzultra.jfa.exceptions.InvalidUUIDException;
 import net.dzultra.jfa.responses.PlayerSkinResponse;
 
 import java.io.IOException;
@@ -19,8 +20,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         super(baseEndpoint, uuid);
 
         if (!data.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
-            System.out.println("Invalid UUID format provided.");
-            this.uuid = "";
+            throw new InvalidUUIDException(this);
         } else {
             this.uuid = uuid;
         }
@@ -33,8 +33,7 @@ public class PlayerSkinRequest extends Request<byte[]>{
         if (!asUsername) { // If asUsername is false, data is treated as UUID
             this.username = null;
             if (!data.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
-                System.out.println("Invalid UUID format provided.");
-                this.uuid = "";
+                throw new InvalidUUIDException(this);
             } else {
                 this.uuid = data;
             }

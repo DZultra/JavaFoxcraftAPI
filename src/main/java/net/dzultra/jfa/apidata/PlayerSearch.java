@@ -1,5 +1,7 @@
 package net.dzultra.jfa.apidata;
 
+import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.NoExactMatchException;
 import net.dzultra.jfa.requests.PlayerSearchRequest;
 import net.dzultra.jfa.responses.PlayerSearchResponse;
 

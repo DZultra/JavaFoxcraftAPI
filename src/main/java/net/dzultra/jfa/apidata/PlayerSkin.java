@@ -1,5 +1,6 @@
 package net.dzultra.jfa.apidata;
 
+import net.dzultra.jfa.exceptions.IncompleteResponseException;
 import net.dzultra.jfa.requests.PlayerSkinRequest;
 import net.dzultra.jfa.responses.PlayerSkinResponse;
 

@@ -1,5 +1,6 @@
 package net.dzultra.jfa.apidata;
 
+import net.dzultra.jfa.exceptions.IncompleteResponseException;
 import net.dzultra.jfa.requests.ServerLeaderboardMetadataRequest;
 import net.dzultra.jfa.types.Gamemode;
 import net.dzultra.jfa.types.Period;

@@ -1,5 +1,8 @@
 package net.dzultra.jfa.apidata;
 
+import net.dzultra.jfa.exceptions.IncompleteLeaderboardException;
+import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.NoExactMatchException;
 import net.dzultra.jfa.requests.ServerLeaderboardsRequest;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 import net.dzultra.jfa.types.Gamemode;

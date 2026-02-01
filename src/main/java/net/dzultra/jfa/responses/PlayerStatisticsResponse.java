@@ -12,10 +12,10 @@ public record PlayerStatisticsResponse(@Nullable @SerializedName("player") Playe
             @SerializedName("avatar") String headUrl,
             @SerializedName("tags") List<List<String>> status,
             @SerializedName("texts") List<String> currentGamemode,
-            @SerializedName("cards") List<Gamemodes> serverGamemodes
+            @SerializedName("cards") List<GamemodeEntry> serverGamemodes
     ) {}
 
-    public record Gamemodes(
+    public record GamemodeEntry(
             @SerializedName("title") String name,
             @SerializedName("subtitle") String initialPlayerJoinDate,
             @SerializedName("cardItems") List<List<String>> statistics

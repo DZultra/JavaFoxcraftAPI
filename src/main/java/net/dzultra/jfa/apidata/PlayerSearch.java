@@ -1,6 +1,6 @@
 package net.dzultra.jfa.apidata;
 
-import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.InvalidResponseException;
 import net.dzultra.jfa.exceptions.NoExactMatchException;
 import net.dzultra.jfa.requests.PlayerSearchRequest;
 import net.dzultra.jfa.responses.PlayerSearchResponse;
@@ -32,7 +32,7 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
     @Override
     protected void dataHandler() {
         List<PlayerSearchResponse.PlayerSearchResult> playerSearchResults = response.players();
-        if (playerSearchResults == null) throw new IncompleteResponseException(this);
+        if (playerSearchResults == null) throw new InvalidResponseException(this);
 
         if (!getRequestedUsername().equals(playerSearchResults.getFirst().username())) throw new NoExactMatchException(this, username);
 

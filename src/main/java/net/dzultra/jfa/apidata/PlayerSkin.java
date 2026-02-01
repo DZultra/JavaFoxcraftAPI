@@ -1,6 +1,6 @@
 package net.dzultra.jfa.apidata;
 
-import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.InvalidResponseException;
 import net.dzultra.jfa.requests.PlayerSkinRequest;
 import net.dzultra.jfa.responses.PlayerSkinResponse;
 
@@ -33,7 +33,7 @@ public class PlayerSkin extends APIDataObject<PlayerSkinRequest,PlayerSkinRespon
 
     @Override
     protected void dataHandler() {
-        if (this.response.png() == null) throw new IncompleteResponseException(this);
+        if (this.response.png() == null) throw new InvalidResponseException(this);
         this.png = this.response.png();
     }
 

@@ -1,6 +1,6 @@
 package net.dzultra.jfa.apidata;
 
-import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.InvalidResponseException;
 import net.dzultra.jfa.requests.ServerLeaderboardMetadataRequest;
 import net.dzultra.jfa.types.Gamemode;
 import net.dzultra.jfa.types.Period;
@@ -27,7 +27,7 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
         if (rawResponse.gamemodes() == null
                 || rawResponse.periods() == null
                 || rawResponse.initialArgs() == null
-        ) throw new IncompleteResponseException(this);
+        ) throw new InvalidResponseException(this);
 
         this.gamemodes = rawResponse.gamemodes().stream()
                 .map(list -> new GameModeMap(list.get(0), list.get(1)))
@@ -62,7 +62,7 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
                 .orElse(null);
 
         // If gameModeMap is null, throw exception, else return value
-        return Optional.ofNullable(gameModeMap).orElseThrow(() -> new IncompleteResponseException(this));
+        return Optional.ofNullable(gameModeMap).orElseThrow(() -> new InvalidResponseException(this));
     }
 
     public PeriodMap getPeriod(Period periodType) {
@@ -72,7 +72,7 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
                 .orElse(null);
 
         // If periodMap is null, throw exception, else return value
-        return Optional.ofNullable(periodMap).orElseThrow(() -> new IncompleteResponseException(this));
+        return Optional.ofNullable(periodMap).orElseThrow(() -> new InvalidResponseException(this));
     }
 
     // Can't be null since dataHandler checks for it

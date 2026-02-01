@@ -1,9 +1,6 @@
 package net.dzultra.test;
 
-import net.dzultra.jfa.apidata.PlayerSearch;
-import net.dzultra.jfa.apidata.ServerLeaderboard;
-import net.dzultra.jfa.types.Period;
-import net.dzultra.jfa.types.leaderboards.ParkourLeaderboards;
+import net.dzultra.jfa.apidata.PlayerStatistics;
 
 public class TestingMain {
     public static void main(String[] args) {
@@ -26,16 +23,19 @@ public class TestingMain {
 //        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true);
 //        playerSkin.writeToPath(Path.of("src/main/resources/skin.png"));
 
-        PlayerSearch playerSearch = new PlayerSearch("DZultra");
-        System.out.println(playerSearch.getUuid());
+//        PlayerSearch playerSearch = new PlayerSearch("DZultra");
+//        System.out.println(playerSearch.getUuid());
 
 //        ServerLeaderboardMetadata metadata = new ServerLeaderboardMetadata();
 //        System.out.println(metadata.getGamemode(Gamemode.ONEBLOCK));
 //        System.out.println(metadata.getPeriod(Period.YEARLY).timeline());
 
-        ServerLeaderboard leaderboard = new ServerLeaderboard(ParkourLeaderboards.PARKOUR_SHARDS_GAINED, Period.DAILY);
-        System.out.println(leaderboard.getLeaderboardType() + " | " + leaderboard.getLeaderboardType().getGamemode());
+//        ServerLeaderboard leaderboard = new ServerLeaderboard(ParkourLeaderboards.PARKOUR_SHARDS_GAINED, Period.DAILY);
+//        System.out.println(leaderboard.getLeaderboardType() + " | " + leaderboard.getLeaderboardType().getGamemode());
+//
+//        System.out.println(leaderboard.getTitle());
 
-        System.out.println(leaderboard.getTitle());
+        PlayerStatistics playerStatistics = new PlayerStatistics("DZultra", true);
+        System.out.println(playerStatistics.getPlayerStats().lastSeen());
     }
 }

@@ -9,9 +9,6 @@ https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 Helper Functions for Json API Responses for clearer use of JFA. Do List handling of certain stats in PlayerStatisticsRequest/Response
 so that clear values of the returned list match exact stats
 
-Add InvalidAPIResponseException for handling invalid API responses
-for example where stuff could miss in the future but can't be missing
-
 Make last seen in PlayerStatistics into own object instead of string
 
 Available Statistics

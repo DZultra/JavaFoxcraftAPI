@@ -1,7 +1,7 @@
 package net.dzultra.jfa.apidata;
 
-import net.dzultra.jfa.exceptions.IncompleteLeaderboardException;
-import net.dzultra.jfa.exceptions.IncompleteResponseException;
+import net.dzultra.jfa.exceptions.InvalidLeaderboardException;
+import net.dzultra.jfa.exceptions.InvalidResponseException;
 import net.dzultra.jfa.exceptions.NoExactMatchException;
 import net.dzultra.jfa.requests.ServerLeaderboardsRequest;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
@@ -33,7 +33,7 @@ public class ServerLeaderboard extends APIDataObject<ServerLeaderboardsRequest,S
 
 
         if (lbResults == null || lbResults.isEmpty()) {
-            throw new IncompleteResponseException(this);
+            throw new InvalidResponseException(this);
         }
 
         Gamemode gamemode = leaderboardType.getGamemode();
@@ -45,7 +45,7 @@ public class ServerLeaderboard extends APIDataObject<ServerLeaderboardsRequest,S
 
         if (!lbResults.get(leaderboardId).name().equals(title)) throw new NoExactMatchException(this, title);
         if (lbResults.get(leaderboardId).entries().size() != 10)
-            throw new IncompleteLeaderboardException(this, lbResults.get(leaderboardId).entries().size());
+            throw new InvalidLeaderboardException(this, lbResults.get(leaderboardId).entries().size());
 
         this.leaderboard = new Leaderboard(title, lbResults.get(leaderboardId).entries());
     }

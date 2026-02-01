@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public record PlayerStatisticsResponse(@Nullable PlayerStatisticsResult player) implements Response {
+public record PlayerStatisticsResponse(@Nullable @SerializedName("player") PlayerStatisticsResult playerStatisticsResult) implements Response {
     public record PlayerStatisticsResult(
             String username,
             @SerializedName("avatar") String headUrl,

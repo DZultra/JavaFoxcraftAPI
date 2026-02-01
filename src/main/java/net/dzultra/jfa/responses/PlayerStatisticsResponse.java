@@ -10,7 +10,7 @@ public record PlayerStatisticsResponse(@Nullable @SerializedName("player") Playe
     public record PlayerStatisticsResult(
             String username,
             @SerializedName("avatar") String headUrl,
-            @Nullable @SerializedName("tags") List<List<String>> status,
+            @SerializedName("tags") List<List<String>> status,
             @SerializedName("texts") List<String> currentGamemode,
             @SerializedName("cards") List<Gamemodes> serverGamemodes
     ) {}

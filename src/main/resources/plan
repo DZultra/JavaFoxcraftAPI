@@ -8,3 +8,5 @@ https://www.mcfoxcraft.com/api/web/leaderboards -> Leaderboards Metadata for API
 
 Get players + a little data on Kingdoms from web map: https://map.foxcraft.net/kingdoms/tiles/players.json
 Get players + a lot of data on Survival from web map: https://map.foxcraft.net/survival/tiles/players.json
+
+Add punishments html wrapper

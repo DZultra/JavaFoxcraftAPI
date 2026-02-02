@@ -19,7 +19,7 @@ public class DistanceTraveledStat {
 
             switch (splitString[1]) {
                 case "km" -> this.distanceUnit = DistanceUnit.KILOMETER;
-                case "m" -> this.distanceUnit = DistanceUnit.METER;
+                case "blocks" -> this.distanceUnit = DistanceUnit.BLOCKS;
                 default -> throw new UnknownDistanceUnitException(splitString[1]);
             }
         }

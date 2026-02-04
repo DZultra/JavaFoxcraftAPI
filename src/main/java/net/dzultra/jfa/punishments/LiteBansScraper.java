@@ -1,5 +1,6 @@
 package net.dzultra.jfa.punishments;
 
+import net.dzultra.jfa.apidata.PlayerSearch;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,6 +15,7 @@ import java.util.List;
 public class LiteBansScraper {
 
     private static final String BASE_URL = "https://www.mcfoxcraft.com/newbans/history.php?uuid=";
+    private static String test = "Test";
 
     public static List<Punishment> fetchAllPunishments(String uuid) throws IOException, InterruptedException {
         List<Punishment> allPunishments = new ArrayList<>();
@@ -115,7 +117,7 @@ public class LiteBansScraper {
 
     // Example usage
     public static void main(String[] args) throws IOException, InterruptedException {
-        String uuid = "662d93f1c0b84c80b36a6375cb6bd39a";
+        String uuid = new PlayerSearch("Z_e_r_o_x").getUuid();
         List<Punishment> punishments = fetchAllPunishments(uuid);
         System.out.println("Total punishments: " + punishments.size());
         punishments.forEach(System.out::println);

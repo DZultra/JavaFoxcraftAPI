@@ -1,9 +1,13 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.jreleaser' version '1.22.0'
 }
 
+def home = System.getProperty("user.home")
+
 group = 'net.dzultra'
-version = '1.0.2-beta'
+version = '1.0.3'
 
 repositories {
     mavenCentral()
@@ -13,13 +17,15 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation 'com.google.code.gson:gson:2.13.2'
-    implementation 'org.jsoup:jsoup:1.16.1'
-    compileOnly 'org.jetbrains:annotations:26.0.2'
+
+    api 'com.google.code.gson:gson:2.10.1'
+    api 'org.jsoup:jsoup:1.16.1'
+    compileOnly 'org.jetbrains:annotations:24.0.1'
 }
 
 java {
     withSourcesJar()
+    withJavadocJar()
     toolchain {
         languageVersion = JavaLanguageVersion.of(25)
     }
@@ -27,4 +33,80 @@ java {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'net.dzultra'
+            artifactId = 'JavaFoxcraftAPI'
+            from components.java
+
+            pom {
+                name = 'JavaFoxcraftAPI'
+                description = 'JavaFoxcraftAPI is an API wrapper written in Java for the API of the Minecraft Server Foxcraft\'s website.'
+                url = 'https://github.com/DZultra/JavaFoxcraftAPI'
+                inceptionYear = '2021'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/license/mit'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'DZultra'
+                        name = 'Daniel Zink'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/DZultra/JavaFoxcraftAPI.git'
+                    developerConnection = 'scm:git:ssh://github.com/DZultra/JavaFoxcraftAPI.git'
+                    url = 'https://github.com/DZultra/JavaFoxcraftAPI.git'
+                }
+            }
+        }
+    }
+
+    repositories { maven { url = layout.buildDirectory.dir('staging-deploy') } }
+}
+
+jreleaser {
+    project {
+        name = 'JavaFoxcraftAPI'           // artifactId
+        group = rootProject.group.toString() // groupId
+        version = rootProject.version.toString()
+    }
+
+    signing {
+        pgp {
+            active = 'ALWAYS'
+            armored = true
+            mode = 'FILE'
+            publicKey = "$home/.jreleaser/public.asc"
+            secretKey = "$home/.jreleaser/private.asc"
+            passphrase = findProperty("passphrase")
+        }
+    }
+
+    deploy {
+        maven {
+            enabled = true
+            mavenCentral {
+                sonatype {
+                    active = 'RELEASE'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                    sign = true
+                    sourceJar = true
+                    javadocJar = true
+                    username = findProperty("mavenUser")
+                    password = findProperty("mavenPassword")
+                }
+                pomchecker {
+                    version = rootProject.version.toString()
+                }
+            }
+        }
+    }
 }

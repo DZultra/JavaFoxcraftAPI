@@ -17,10 +17,12 @@ public class ServerLeaderboard extends APIDataObject<ServerLeaderboardsRequest,S
     private Leaderboard leaderboard;
 
     public ServerLeaderboard(LeaderboardType leaderboardType, Period period) {
-        ServerLeaderboardsRequest request = new ServerLeaderboardsRequest(leaderboardType.getGamemode(), period);
-        ServerLeaderboardsResponse response = request.getResponse();
-        super(request, response);
-        this.leaderboardType = leaderboardType;
+        this(new ServerLeaderboardsRequest(leaderboardType, period), leaderboardType, period);
+    }
+
+    private ServerLeaderboard(ServerLeaderboardsRequest request, LeaderboardType type, Period period) {
+        super(request, request.getResponse());
+        this.leaderboardType = type;
         this.period = period;
         dataHandler();
     }

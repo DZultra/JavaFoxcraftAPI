@@ -22,4 +22,9 @@ public abstract class APIDataObject<REQUEST_TYPE extends Request<?>, RESPONSE_TY
     public RESPONSE_TYPE getRawResponse() {
         return response;
     }
+
+    protected record ReqRes<RECORD_REQUEST_TYPE, RECORD_RESPONSE_TYPE>(
+            RECORD_REQUEST_TYPE request,
+            RECORD_RESPONSE_TYPE response
+    ) {}
 }

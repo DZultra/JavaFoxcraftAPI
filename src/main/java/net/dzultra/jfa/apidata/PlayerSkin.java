@@ -12,22 +12,15 @@ public class PlayerSkin extends APIDataObject<PlayerSkinRequest,PlayerSkinRespon
     private byte[] png;
 
     public PlayerSkin(String uuid, boolean asHead) {
-        PlayerSkinRequest request = new PlayerSkinRequest(uuid, asHead);
-        PlayerSkinResponse response = request.getResponse();
-        super(request, response);
-        dataHandler();
+        this(new PlayerSkinRequest(uuid, asHead));
     }
 
     public PlayerSkin(String data, boolean asHead, boolean asUsername) {
-        PlayerSkinRequest request = new PlayerSkinRequest(data, asHead, asUsername);
-        PlayerSkinResponse response = request.getResponse();
-        super(request, response);
-        dataHandler();
+        this(new PlayerSkinRequest(data, asHead, asUsername));
     }
 
     public PlayerSkin(PlayerSkinRequest request) {
-        PlayerSkinResponse response = request.getResponse();
-        super(request, response);
+        super(request, request.getResponse());
         dataHandler();
     }
 

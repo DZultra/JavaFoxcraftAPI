@@ -15,16 +15,15 @@ public class PlayerStatistics extends APIDataObject<PlayerStatisticsRequest, Pla
     private PlayerStats playerStats;
 
     public PlayerStatistics(String uuid) {
-        PlayerStatisticsRequest request = new PlayerStatisticsRequest(uuid);
-        PlayerStatisticsResponse response = request.getResponse();
-        super(request, response);
-        dataHandler();
+        this(new PlayerStatisticsRequest(uuid));
     }
 
     public PlayerStatistics(String data, boolean asUsername) {
-        PlayerStatisticsRequest request = new PlayerStatisticsRequest(data, asUsername);
-        PlayerStatisticsResponse response = request.getResponse();
-        super(request, response);
+        this(new PlayerStatisticsRequest(data, asUsername));
+    }
+
+    private PlayerStatistics(PlayerStatisticsRequest request) {
+        super(request, request.getResponse());
         dataHandler();
     }
 

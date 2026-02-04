@@ -15,9 +15,11 @@ public class ServerLeaderboardMetadata extends APIDataObject<ServerLeaderboardMe
 
 
     public ServerLeaderboardMetadata() {
-        ServerLeaderboardMetadataRequest request = new ServerLeaderboardMetadataRequest();
-        ServerLeaderboardMetadataResponse response = request.getResponse();
-        super(request, response);
+        this(new ServerLeaderboardMetadataRequest());
+    }
+
+    private ServerLeaderboardMetadata(ServerLeaderboardMetadataRequest request) {
+        super(request, request.getResponse());
         dataHandler();
     }
 

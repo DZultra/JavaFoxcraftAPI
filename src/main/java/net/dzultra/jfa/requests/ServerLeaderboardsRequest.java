@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 import net.dzultra.jfa.types.Gamemode;
 import net.dzultra.jfa.types.Period;
+import net.dzultra.jfa.types.leaderboards.LeaderboardType;
 
 public class ServerLeaderboardsRequest extends Request<String> {
     private static final String baseEndpoint = "/web/leaderboard?";
@@ -14,6 +15,20 @@ public class ServerLeaderboardsRequest extends Request<String> {
         super(baseEndpoint, null);
         this.gamemode = gamemode;
         this.period = period;
+    }
+
+    public ServerLeaderboardsRequest(LeaderboardType type, Period period) {
+        super(baseEndpoint, null);
+        this.gamemode = type.getGamemode();
+        this.period = period;
+    }
+
+    public Gamemode getGamemode() {
+        return gamemode;
+    }
+
+    public Period getPeriod() {
+        return period;
     }
 
     @Override

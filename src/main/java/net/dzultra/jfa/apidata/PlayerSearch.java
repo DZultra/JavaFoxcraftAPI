@@ -16,18 +16,13 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
     private String headUrl;
 
     public PlayerSearch(String username) {
-        PlayerSearchRequest request = new PlayerSearchRequest(username);
-        PlayerSearchResponse response = request.getResponse();
-        super(request, response);
-        dataHandler();
+        this(new PlayerSearchRequest(username));
     }
 
     public PlayerSearch(PlayerSearchRequest request) {
-        PlayerSearchResponse response = request.getResponse();
-        super(request, response);
+        super(request, request.getResponse());
         dataHandler();
     }
-
 
     @Override
     protected void dataHandler() {
@@ -46,6 +41,7 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
     public String getName() {
         return "PlayerSearch";
     }
+
 
     public String getUuid() {
         return uuid;

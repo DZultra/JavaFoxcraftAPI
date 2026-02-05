@@ -7,7 +7,7 @@ plugins {
 def home = System.getProperty("user.home")
 
 group = 'net.dzultra'
-version = '1.0.3'
+version = '1.0.2'
 
 repositories {
     mavenCentral()
@@ -24,6 +24,9 @@ dependencies {
 }
 
 java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
     withSourcesJar()
     withJavadocJar()
 }
@@ -36,12 +39,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId = 'net.dzultra'
-            artifactId = 'JavaFoxcraftAPI'
+            artifactId = 'JavaFoxcraftAPI-21'
             from components.java
 
             pom {
-                name = 'JavaFoxcraftAPI'
-                description = 'JavaFoxcraftAPI is an API wrapper written in Java for the API of the Minecraft Server Foxcraft\'s website.'
+                name = 'JavaFoxcraftAPI-21'
+                description = 'JavaFoxcraftAPI is an API wrapper written in Java for the API of the Minecraft Server Foxcraft\'s website. (Backport to Java 21)'
                 url = 'https://github.com/DZultra/JavaFoxcraftAPI'
                 inceptionYear = '2021'
                 licenses {
@@ -70,7 +73,7 @@ publishing {
 
 jreleaser {
     project {
-        name = 'JavaFoxcraftAPI'           // artifactId
+        name = 'JavaFoxcraftAPI-21'           // artifactId
         group = rootProject.group.toString() // groupId
         version = rootProject.version.toString()
     }

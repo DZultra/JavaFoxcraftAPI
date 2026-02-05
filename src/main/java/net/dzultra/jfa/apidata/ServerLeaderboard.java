@@ -2,12 +2,13 @@ package net.dzultra.jfa.apidata;
 
 import net.dzultra.jfa.exceptions.InvalidLeaderboardException;
 import net.dzultra.jfa.exceptions.InvalidResponseException;
+import net.dzultra.jfa.exceptions.NoEntryFoundException;
 import net.dzultra.jfa.exceptions.NoExactMatchException;
 import net.dzultra.jfa.requests.ServerLeaderboardsRequest;
 import net.dzultra.jfa.responses.ServerLeaderboardsResponse;
 import net.dzultra.jfa.types.Gamemode;
-import net.dzultra.jfa.types.leaderboards.LeaderboardType;
 import net.dzultra.jfa.types.Period;
+import net.dzultra.jfa.types.leaderboards.LeaderboardType;
 
 import java.util.List;
 
@@ -74,7 +75,11 @@ public class ServerLeaderboard extends APIDataObject<ServerLeaderboardsRequest,S
     }
 
     public ServerLeaderboardsResponse.LeaderboardEntry getEntry(int position) {
-        return leaderboard.entries().get(position - 1);
+        try {
+            return leaderboard.entries().get(position - 1);
+        } catch (IndexOutOfBoundsException e) {
+            throw new NoEntryFoundException(this, position);
+        }
     }
 
     public record Leaderboard(String title, List<ServerLeaderboardsResponse.LeaderboardEntry> entries) {}

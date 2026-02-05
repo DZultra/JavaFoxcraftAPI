@@ -1,6 +1,10 @@
 package net.dzultra.test;
 
+import net.dzultra.jfa.apidata.PlayerSearch;
 import net.dzultra.jfa.apidata.PlayerStatistics;
+import net.dzultra.jfa.apidata.ServerLeaderboard;
+import net.dzultra.jfa.types.Period;
+import net.dzultra.jfa.types.leaderboards.OneblockLeaderboards;
 
 public class TestingMain {
     public static void main(String[] args) {
@@ -37,5 +41,8 @@ public class TestingMain {
 
         PlayerStatistics playerStatistics = new PlayerStatistics("DZultra", true);
         System.out.println(playerStatistics.getPlayerStats().lastSeen());
+        PlayerSearch playerSearch = new PlayerSearch("DZultra");
+        ServerLeaderboard serverLeaderboard = new ServerLeaderboard(OneblockLeaderboards.WARPS_VISITED, Period.DAILY);
+        System.out.println(serverLeaderboard.getEntry(0));
     }
 }

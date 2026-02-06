@@ -7,7 +7,7 @@ plugins {
 def home = System.getProperty("user.home")
 
 group = 'net.dzultra'
-version = '1.0.2'
+version = '1.0.3'
 
 repositories {
     mavenCentral()

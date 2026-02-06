@@ -9,7 +9,7 @@ public class InitialGamemodeJoinDateStat {
     @Nullable
     private final String string;
     @Nullable
-    private final Year year;
+    private Year year;
     @Nullable
     private final Month month;
     @Nullable
@@ -18,7 +18,6 @@ public class InitialGamemodeJoinDateStat {
     public InitialGamemodeJoinDateStat(@Nullable String string) {
         if (string == null || string.equals("Never played")) {
             this.string = null;
-            this.year = null;
             this.month = null;
             this.day = null;
         } else {
@@ -41,9 +40,12 @@ public class InitialGamemodeJoinDateStat {
             }
 
             this.day = Integer.parseInt(splitString[3].split(",")[0]);
-            this.year = Year.of(Integer.parseInt(splitString[4]));
+            try {
+                this.year = Year.of(Integer.parseInt(splitString[4]));
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+                this.year = null;
+            }
         }
-
     }
 
     @Nullable

@@ -140,7 +140,7 @@ public class PlayerStatistics extends APIDataObject<PlayerStatisticsRequest, Pla
         return new DistanceTraveledStat(stats.get(9).get(1));
     }
 
-    private <T extends PlayerStats.ServerStats> T handleStats(
+    private <T extends PlayerStats.GenericStat> T handleStats(
             PlayerStatisticsResponse.GamemodeEntry entry,
             Function<List<List<String>>, T> constructor
     ) {

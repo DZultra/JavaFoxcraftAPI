@@ -1,5 +1,7 @@
 package net.dzultra.jfa.types;
 
+import org.jetbrains.annotations.Nullable;
+
 @SuppressWarnings("unused")
 public enum Gamemode {
     ONEBLOCK("oneblock"),
@@ -24,7 +26,8 @@ public enum Gamemode {
         return name;
     }
 
-    public static Gamemode getGamemodeByName(String name) {
+    @Nullable
+    public static Gamemode getGamemodeByName(@Nullable String name) {
         if (name == null) return null;
         for (Gamemode gamemode : values()) {
             if (gamemode.name.equalsIgnoreCase(name) || gamemode.name().equalsIgnoreCase(name)) {

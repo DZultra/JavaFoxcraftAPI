@@ -103,6 +103,7 @@ public abstract class Request<T> {
     }
 
     private String getNonTrimmedUUID(String uuid) {
+        if (uuid == null) return null;
         return uuid.substring(0, 8) + "-" +
                 uuid.substring(8, 12) + "-" +
                 uuid.substring(12, 16) + "-" +

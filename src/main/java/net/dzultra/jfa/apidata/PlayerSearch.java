@@ -42,7 +42,6 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
         return "PlayerSearch";
     }
 
-
     public String getUuid() {
         return uuid;
     }

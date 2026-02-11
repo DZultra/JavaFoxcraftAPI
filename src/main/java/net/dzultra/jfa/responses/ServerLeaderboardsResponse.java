@@ -8,7 +8,7 @@ import java.util.List;
 public record ServerLeaderboardsResponse(@Nullable @SerializedName("boards") List<LeaderboardResults> leaderboardResults) implements Response {
     public record LeaderboardResults(
             @SerializedName("title") String name,
-            @SerializedName("players") List<LeaderboardEntry> entries
+            @SerializedName("playerEntries") List<LeaderboardEntry> entries
     ) {}
 
     public record LeaderboardEntry(

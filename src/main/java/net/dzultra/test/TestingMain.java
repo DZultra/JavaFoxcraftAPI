@@ -1,18 +1,12 @@
 package net.dzultra.test;
 
-import net.dzultra.jfa.apidata.PlayerSearch;
-import net.dzultra.jfa.apidata.PlayerStatistics;
-import net.dzultra.jfa.apidata.ServerLeaderboard;
-import net.dzultra.jfa.types.Period;
-import net.dzultra.jfa.types.leaderboards.OneblockLeaderboards;
-
 public class TestingMain {
     public static void main(String[] args) {
 //        PlayerSearchResponse playerSearchResponse = new PlayerSearchRequest("DZultra").getRawResponse();
 //
 //        System.out.println("Response: " + playerSearchResponse);
-//        System.out.println("name: " + playerSearchResponse.players().getFirst().username());
-//        System.out.println("UUID: " + playerSearchResponse.players().getFirst().uuid());
+//        System.out.println("name: " + playerSearchResponse.playerEntries().getFirst().username());
+//        System.out.println("UUID: " + playerSearchResponse.playerEntries().getFirst().uuid());
 //
 //        PlayerStatisticsResponse playerStatisticsResponse = new PlayerStatisticsRequest("DZultra", true).getRawResponse();
 //        System.out.println(playerStatisticsResponse.player().serverGamemodes().get(0).statistics().getFirst());
@@ -38,11 +32,16 @@ public class TestingMain {
 //        System.out.println(leaderboard.getLeaderboardType() + " | " + leaderboard.getLeaderboardType().getGamemode());
 //
 //        System.out.println(leaderboard.getTitle());
+//
+//        PlayerStatistics playerStatistics = new PlayerStatistics("DZultra", true);
+//        System.out.println(playerStatistics.getPlayerStats().lastSeen());
+//        PlayerSearch playerSearch = new PlayerSearch("DZultra");
+//        ServerLeaderboard serverLeaderboard = new ServerLeaderboard(OneblockLeaderboards.WARPS_VISITED, Period.DAILY);
+//        System.out.println(serverLeaderboard.getEntry(0));
 
-        PlayerStatistics playerStatistics = new PlayerStatistics("DZultra", true);
-        System.out.println(playerStatistics.getPlayerStats().lastSeen());
-        PlayerSearch playerSearch = new PlayerSearch("DZultra");
-        ServerLeaderboard serverLeaderboard = new ServerLeaderboard(OneblockLeaderboards.WARPS_VISITED, Period.DAILY);
-        System.out.println(serverLeaderboard.getEntry(0));
+//        KingdomsPlayers kingdomsPlayers = new KingdomsPlayers();
+//        SurvivalPlayers survivalPlayers = new SurvivalPlayers();
+//        System.out.println(kingdomsPlayers.getPlayerEntries().get(0).name());
+//        System.out.println(survivalPlayers.getPlayerEntries().get(0).name());
     }
 }

@@ -1,138 +1,129 @@
 package net.dzultra.jfa.punishments;
 
-import net.dzultra.jfa.apidata.PlayerSearch;
+import net.dzultra.jfa.exceptions.JsoupConnectionException;
+import net.dzultra.jfa.exceptions.PunishmentFetchException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LiteBansScraper {
 
-    private static final String BASE_URL = "https://www.mcfoxcraft.com/newbans/history.php?uuid=";
-    private static String test = "Test";
+    private static final String BASE = "https://www.mcfoxcraft.com/newbans/";
 
-    public static List<Punishment> fetchAllPunishments(String uuid) throws IOException, InterruptedException {
-        List<Punishment> allPunishments = new ArrayList<>();
-        String before = null;
+    public static List<Punishment> fetchPunishments(String uuid) {
+        List<Punishment> records = new ArrayList<>();
+        String nextPageUrl = BASE + "history.php?uuid=" + uuid;
 
-        while (true) {
-            // Build the URL for this page
-            String url = BASE_URL + uuid;
-            if (before != null) {
-                url += "&before=" + before;
+        while (nextPageUrl != null) {
+            Document doc;
+            try {
+                doc = Jsoup.connect(nextPageUrl).userAgent("Mozilla/5.0").get();
+            } catch(IOException e) {
+                throw new JsoupConnectionException(e, nextPageUrl);
             }
 
-            // Fetch the page
-            Document doc = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0") // avoid simple bot blocks
-                    .timeout(10_000)
-                    .get();
-
-            // Parse the table rows
-            Elements rows = doc.select("table tbody tr");
-            if (rows.isEmpty()) break; // no more punishments
-
+            Elements rows = doc.select("table tbody tr"); // All Punishment Rows
             for (Element row : rows) {
-                Element link = row.selectFirst("a[href*=info.php]");
-                String href = link != null ? link.attr("href") : "";
+                Element firstTd = row.selectFirst("td");
+                if (firstTd == null) throw new PunishmentFetchException(row);
 
-                int id = extractId(href);
-                String type = extractType(href);
+                Element link = firstTd.selectFirst("a[href]");
+                if (link == null) throw new PunishmentFetchException(row);
 
-                String playerName = row.select("td:nth-child(2) span").text();
-                String playerUUID = extractUUID(row.select("td:nth-child(2) img").attr("src"));
-                String moderatorName = row.select("td:nth-child(3) span").text();
-                String moderatorUUID = extractUUID(row.select("td:nth-child(3) img").attr("src"));
-                String reason = row.select("td:nth-child(4)").text();
-                String date = row.select("td:nth-child(5)").text();
-                String expires = row.select("td:nth-child(6)").text();
+                String href = link.attr("href");
+                String type = link.text().trim();
+                String infoUrl = BASE + href;
 
-                Punishment p = new Punishment(type, id, playerName, playerUUID, moderatorName, moderatorUUID, reason, date, expires);
-                allPunishments.add(p);
+                Punishment record = fetchPunishmentDetails(type, infoUrl);
+                records.add(record);
             }
 
-            // Find next page cursor
-            Element nextLink = doc.selectFirst("a.litebans-pager-right.litebans-pager-active");
-            if (nextLink == null) break; // no more pages
-
-            before = extractBefore(nextLink.attr("href"));
-
-            // Optional: polite delay
-            Thread.sleep(150);
+            Element next = doc.selectFirst("a.litebans-pager-right.litebans-pager-active");
+            if (next != null) {
+                nextPageUrl = BASE + next.attr("href");
+            } else {
+                nextPageUrl = null;
+            }
         }
 
-        return allPunishments;
+        return records;
     }
 
-    // Helper to extract numeric ID from info.php?type=ban&id=12345
-    private static int extractId(String href) {
+    private static Punishment fetchPunishmentDetails(String type, String url) {
+        Document doc;
         try {
-            String[] parts = href.split("&");
-            for (String part : parts) {
-                if (part.startsWith("id=")) return Integer.parseInt(part.substring(3));
+            doc = Jsoup.connect(url).userAgent("Mozilla/5.0").get();
+        } catch (IOException e) {
+            throw new JsoupConnectionException(e, url);
+        }
+
+        Elements rows = doc.select("table tr");
+
+        String punishedPlayer = null;
+        String punishedUuid = null;
+        String moderator = null;
+        String moderatorUuid = null;
+        String reason = null;
+        String date = null;
+        String expires = null;
+        String originServer = null;
+
+        for (Element row : rows) {
+            Elements tds = row.select("td"); // All Info to the Punishment
+            if (tds.size() < 2) continue;
+
+            String key = tds.get(0).text();
+            Element valueTd = tds.get(1);
+
+            switch (key) {
+                case "Player" -> {
+                    Element a = valueTd.selectFirst("a[href]");
+                    if (a != null) {
+                        punishedPlayer = a.text();
+                        String href = a.attr("href");
+                        punishedUuid = extractUuid(href);
+                    }
+                }
+                case "Moderator" -> {
+                    Element a = valueTd.selectFirst("a[href]");
+                    if (a != null) {
+                        moderator = a.text();
+                        String href = a.attr("href");
+                        moderatorUuid = extractUuid(href);
+                    }
+                }
+                case "Reason" -> reason = valueTd.text();
+                case "Date" -> date = valueTd.text();
+                case "Expires" -> expires = valueTd.text();
+                case "Origin Server" -> originServer = valueTd.text();
             }
-        } catch (Exception ignored) {}
-        return -1;
+        }
+
+        return new Punishment(
+                type, punishedPlayer, punishedUuid,
+                moderator, moderatorUuid, reason,
+                date, expires, originServer
+        );
     }
 
-    // Helper to extract type from info.php?type=ban&id=12345
-    private static String extractType(String href) {
-        try {
-            String[] parts = href.split("&");
-            for (String part : parts) {
-                if (part.startsWith("type=")) return part.substring(5);
-            }
-        } catch (Exception ignored) {}
-        return "";
-    }
+    private static String extractUuid(String href) {
+        int index = href.indexOf("uuid=");
+        if (index == -1) return null;
 
-    // Extract UUID from avatar URL: https://cravatar.eu/avatar/<uuid>/25
-    private static String extractUUID(String src) {
-        try {
-            String[] parts = src.split("/");
-            for (int i = 0; i < parts.length; i++) {
-                if (parts[i].equals("avatar") && i + 1 < parts.length) return parts[i + 1];
-            }
-        } catch (Exception ignored) {}
-        return "";
-    }
+        String uuidPart = href.substring(index + 5);
 
-    // Extract the 'before' timestamp from the URL
-    private static String extractBefore(String href) {
-        try {
-            href = URLDecoder.decode(href, StandardCharsets.UTF_8);
-            String[] parts = href.split("&");
-            for (String part : parts) {
-                if (part.startsWith("before=")) return part.substring(7);
-            }
-        } catch (Exception ignored) {}
-        return null;
-    }
+        // Remove suffix like :issued
+        int colon = uuidPart.indexOf(':');
+        if (colon != -1) {
+            uuidPart = uuidPart.substring(0, colon);
+        }
 
-    // Example usage
-    public static void main(String[] args) throws IOException, InterruptedException {
-        String uuid = new PlayerSearch("Z_e_r_o_x").getUuid();
-        List<Punishment> punishments = fetchAllPunishments(uuid);
-        System.out.println("Total punishments: " + punishments.size());
-        punishments.forEach(System.out::println);
+        return uuidPart;
     }
-
-    public record Punishment(
-            String type,         // Ban, Mute, Warning, Kick
-            int id,              // Numeric punishment ID
-            String playerName,
-            String playerUUID,
-            String moderatorName,
-            String moderatorUUID,
-            String reason,
-            String date,
-            String expires
-    ) {}
 }
 

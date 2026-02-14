@@ -1,5 +1,13 @@
 package net.dzultra.test;
 
+import net.dzultra.jfa.apidata.PlayerSearch;
+import net.dzultra.jfa.punishments.LiteBansScraper;
+import net.dzultra.jfa.punishments.PlayerPunishments;
+import net.dzultra.jfa.punishments.Punishment;
+
+import java.io.IOException;
+import java.util.List;
+
 public class TestingMain {
     public static void main(String[] args) {
 //        PlayerSearchResponse playerSearchResponse = new PlayerSearchRequest("DZultra").getRawResponse();
@@ -43,5 +51,8 @@ public class TestingMain {
 //        SurvivalPlayers survivalPlayers = new SurvivalPlayers();
 //        System.out.println(kingdomsPlayers.getPlayerEntries().get(0).name());
 //        System.out.println(survivalPlayers.getPlayerEntries().get(0).name());
+
+//        List<Punishment> punishments = new PlayerPunishments("DZultra").getPunishments();
+//        punishments.forEach(System.out::println);
     }
 }

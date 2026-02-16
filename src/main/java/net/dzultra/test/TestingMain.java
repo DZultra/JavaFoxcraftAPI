@@ -1,13 +1,5 @@
 package net.dzultra.test;
 
-import net.dzultra.jfa.apidata.PlayerSearch;
-import net.dzultra.jfa.punishments.LiteBansScraper;
-import net.dzultra.jfa.punishments.PlayerPunishments;
-import net.dzultra.jfa.punishments.Punishment;
-
-import java.io.IOException;
-import java.util.List;
-
 public class TestingMain {
     public static void main(String[] args) {
 //        PlayerSearchResponse playerSearchResponse = new PlayerSearchRequest("DZultra").getRawResponse();

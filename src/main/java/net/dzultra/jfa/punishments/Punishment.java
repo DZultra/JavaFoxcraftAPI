@@ -8,6 +8,5 @@ public record Punishment(
         String moderatorUuid,
         String reason,
         String date,
-        String expires,
-        String originServer
+        String expires
 ) {}

@@ -1,7 +1,6 @@
 package net.dzultra.jfa.punishments;
 
 import net.dzultra.jfa.exceptions.JsoupConnectionException;
-import net.dzultra.jfa.exceptions.PunishmentFetchException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,43 +8,119 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LiteBansScraper {
 
-    private static final String BASE = "https://www.mcfoxcraft.com/newbans/";
+    private static final String BASE =
+            "https://www.mcfoxcraft.com/newbans/";
 
-    public static List<Punishment> fetchPunishments(String uuid) {
+    public static List<Punishment> fetchPunishments(
+            String uuid
+    ) {
         List<Punishment> records = new ArrayList<>();
-        String nextPageUrl = BASE + "history.php?uuid=" + uuid;
+        Set<String> visitedPages = new HashSet<>();
+
+        String nextPageUrl =
+                BASE + "history.php?uuid=" + uuid;
 
         while (nextPageUrl != null) {
+
+            if (!visitedPages.add(nextPageUrl)) {
+                break; // stop infinite loops
+            }
+
             Document doc;
             try {
-                doc = Jsoup.connect(nextPageUrl).userAgent("Mozilla/5.0").get();
-            } catch(IOException e) {
-                throw new JsoupConnectionException(e, nextPageUrl);
+                doc = Jsoup.connect(nextPageUrl)
+                        .userAgent("Mozilla/5.0")
+                        .get();
+                System.out.println("Sending Request to URL: " + nextPageUrl);
+            } catch (IOException e) {
+                throw new JsoupConnectionException(
+                        e, nextPageUrl
+                );
             }
 
-            Elements rows = doc.select("table tbody tr"); // All Punishment Rows
+            Elements rows =
+                    doc.select("table tbody tr");
+
             for (Element row : rows) {
-                Element firstTd = row.selectFirst("td");
-                if (firstTd == null) throw new PunishmentFetchException(row);
 
-                Element link = firstTd.selectFirst("a[href]");
-                if (link == null) throw new PunishmentFetchException(row);
+                Elements tds = row.select("td");
+                if (tds.size() < 6) continue;
 
-                String href = link.attr("href");
-                String type = link.text().trim();
-                String infoUrl = BASE + href;
+                /* ---------- TYPE ---------- */
 
-                Punishment record = fetchPunishmentDetails(type, infoUrl);
-                records.add(record);
+                Element typeLink =
+                        tds.get(0)
+                                .selectFirst("a");
+
+                String type =
+                        typeLink != null
+                                ? typeLink.text().trim()
+                                : tds.get(0).text().trim();
+
+                /* ---------- PLAYER ---------- */
+
+                String punishedPlayer =
+                        tds.get(1)
+                                .selectFirst("span")
+                                .text();
+
+                String punishedUuid =
+                        extractUuidFromAvatar(
+                                tds.get(1)
+                        );
+
+                /* ---------- MODERATOR ---------- */
+
+                String moderator =
+                        tds.get(2)
+                                .selectFirst("span")
+                                .text();
+
+                String moderatorUuid =
+                        extractUuidFromAvatar(
+                                tds.get(2)
+                        );
+
+                /* ---------- OTHER FIELDS ---------- */
+
+                String reason = tds.get(3).text();
+                String date = tds.get(4).text();
+                String expires = tds.get(5).text();
+
+                records.add(new Punishment(
+                        type,
+                        punishedPlayer,
+                        punishedUuid,
+                        moderator,
+                        moderatorUuid,
+                        reason,
+                        date,
+                        expires
+                ));
             }
 
-            Element next = doc.selectFirst("a.litebans-pager-right.litebans-pager-active");
+            /* ---------- PAGINATION ---------- */
+
+            Element next =
+                    doc.selectFirst(
+                            "a.litebans-pager-right.litebans-pager-active"
+                    );
+
             if (next != null) {
-                nextPageUrl = BASE + next.attr("href");
+                String newUrl =
+                        BASE + next.attr("href");
+
+                if (newUrl.equals(nextPageUrl)) {
+                    break;
+                }
+
+                nextPageUrl = newUrl;
             } else {
                 nextPageUrl = null;
             }
@@ -54,76 +129,31 @@ public class LiteBansScraper {
         return records;
     }
 
-    private static Punishment fetchPunishmentDetails(String type, String url) {
-        Document doc;
-        try {
-            doc = Jsoup.connect(url).userAgent("Mozilla/5.0").get();
-        } catch (IOException e) {
-            throw new JsoupConnectionException(e, url);
-        }
+    /* ---------- UUID FROM AVATAR ---------- */
 
-        Elements rows = doc.select("table tr");
+    private static String extractUuidFromAvatar(
+            Element td
+    ) {
+        Element img = td.selectFirst("img");
 
-        String punishedPlayer = null;
-        String punishedUuid = null;
-        String moderator = null;
-        String moderatorUuid = null;
-        String reason = null;
-        String date = null;
-        String expires = null;
-        String originServer = null;
+        if (img == null) return null;
 
-        for (Element row : rows) {
-            Elements tds = row.select("td"); // All Info to the Punishment
-            if (tds.size() < 2) continue;
+        String src = img.attr("src");
 
-            String key = tds.get(0).text();
-            Element valueTd = tds.get(1);
+        // Example:
+        // https://cravatar.eu/avatar/<uuid>/25
 
-            switch (key) {
-                case "Player" -> {
-                    Element a = valueTd.selectFirst("a[href]");
-                    if (a != null) {
-                        punishedPlayer = a.text();
-                        String href = a.attr("href");
-                        punishedUuid = extractUuid(href);
-                    }
-                }
-                case "Moderator" -> {
-                    Element a = valueTd.selectFirst("a[href]");
-                    if (a != null) {
-                        moderator = a.text();
-                        String href = a.attr("href");
-                        moderatorUuid = extractUuid(href);
-                    }
-                }
-                case "Reason" -> reason = valueTd.text();
-                case "Date" -> date = valueTd.text();
-                case "Expires" -> expires = valueTd.text();
-                case "Origin Server" -> originServer = valueTd.text();
-            }
-        }
+        int start = src.indexOf("avatar/");
+        if (start == -1) return null;
 
-        return new Punishment(
-                type, punishedPlayer, punishedUuid,
-                moderator, moderatorUuid, reason,
-                date, expires, originServer
-        );
-    }
+        start += 7; // length of "avatar/"
 
-    private static String extractUuid(String href) {
-        int index = href.indexOf("uuid=");
-        if (index == -1) return null;
+        int end = src.indexOf('/', start);
+        if (end == -1) return null;
 
-        String uuidPart = href.substring(index + 5);
-
-        // Remove suffix like :issued
-        int colon = uuidPart.indexOf(':');
-        if (colon != -1) {
-            uuidPart = uuidPart.substring(0, colon);
-        }
-
-        return uuidPart;
+        return src.substring(start, end);
     }
 }
+
+
 

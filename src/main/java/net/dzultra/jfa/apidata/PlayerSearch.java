@@ -29,9 +29,20 @@ public class PlayerSearch extends APIDataObject<PlayerSearchRequest,PlayerSearch
         List<PlayerSearchResponse.PlayerSearchResult> playerSearchResults = response.players();
         if (playerSearchResults == null) throw new InvalidResponseException(this);
 
-        if (!getRequestedUsername().equals(playerSearchResults.getFirst().username())) throw new NoExactMatchException(this, username);
+        boolean foundExactMatch = false;
+        int index = 0;
+        for (PlayerSearchResponse.PlayerSearchResult result : playerSearchResults) {
+            if (result.username().equalsIgnoreCase(this.getRequestedUsername())) {
+                foundExactMatch = true;
+                break;
+            }
+            index++;
+        }
+        if (!foundExactMatch) {
+            throw new NoExactMatchException(this, username);
+        }
 
-        this.playerSearchResult = this.response.players().getFirst();
+        this.playerSearchResult = this.response.players().get(index);
         this.uuid = this.getPlayerSearchResult().uuid();
         this.username = this.getPlayerSearchResult().username();
         this.headUrl = this.getPlayerSearchResult().headUrl();

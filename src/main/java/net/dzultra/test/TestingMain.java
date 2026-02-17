@@ -21,8 +21,8 @@ public class TestingMain {
 //        PlayerSkin playerSkin = new PlayerSkin("DZultra", false, true);
 //        playerSkin.writeToPath(Path.of("src/main/resources/skin.png"));
 
-//        PlayerSearch playerSearch = new PlayerSearch("DZultra");
-//        System.out.println(playerSearch.getUuid());
+//        PlayerSearch playerSearch = new PlayerSearch("Philip_Rex");
+//        System.out.println(playerSearch.getUsername());
 
 //        ServerLeaderboardMetadata metadata = new ServerLeaderboardMetadata();
 //        System.out.println(metadata.getGamemode(Gamemode.ONEBLOCK));
